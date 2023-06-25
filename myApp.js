@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 console.log(process.env.MONGO_URI)
+
+// 2/12: Create a Model
 const personSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -14,8 +16,30 @@ const personSchema = new mongoose.Schema({
 
 let Person = mongoose.model("Person", personSchema);
 
+// 3/12: Create and Save a Record of a Model
 const createAndSavePerson = (done) => {
-  done(null /*, data*/);
+  // what is a constructor in this context: `Person`
+  // pass it some values to create
+  // and instance, `person`.
+  // Pass to the constructor an object having the fields with types conforming to the
+  // ones in the `personSchema`. 
+  let jeremyBerimy = new Person({ name: "Jeremy Berimy", age: 1, favoriteFoods: ["time", "bananas"]});
+
+  // Then, call the method `document.save()` on the returned document instance.
+  // the `save()` method returns a promise. If `save()` succeeds, the promise resolves
+  // to the document that was saved.
+  jeremyBerimy.save(function(err, data) {
+    // ...do your stuff here...
+    // Pass it to a callback using the Node convention. This is a common pattern; all the following 
+    // CRUD methods take a callback function like this as the last argument.
+    // what's `the Node convention` in this context?
+    if (err) {
+      return console.error(err);
+    }
+    console.log(`this is data: ${data}`);
+    done(null, data);
+
+  })
 };
 
 const createManyPeople = (arrayOfPeople, done) => {
