@@ -90,10 +90,32 @@ const findPersonById = (personId, done) => {
   })
 };
 
+// 8/12) Perform classic updates by running Find, Edit, then Save
+// to summarize, using the `Model.update()` method directly from Mongoose's
+// low-level MongoDB driver provides some benefits, such as bulk editing
+// multiple documents. However, it has limitations such as not returning the
+// updated document and bypassing model validations, which can make it 
+// difficult to work with and maintain data integrity.
 const findEditThenSave = (personId, done) => {
-  const foodToAdd = "hamburger";
+  const foodToAdd = "hamburger"
+  // find person by _id findById(id, callback function):
+  Person.findById(personId, function(err, person) {
+    if (err) {
+      console.error(err);
+    }
+    // Array.push() method to add "hamburger" to the list
+    // of a person's favorite foods
+    person.favoriteFoods.push(foodToAdd);
 
-  done(null /*, data*/);
+    // and inside the callback, save() the updated Person
+    person.save((err, updatedPerson) => {
+      if (err) {
+        console.log(err);
+      }
+      done(null, updatedPerson);
+    })
+  })
+
 };
 
 const findAndUpdate = (personName, done) => {
@@ -120,6 +142,8 @@ const queryChain = (done) => {
 
 /** **Well Done !!**
 /* You completed these challenges, let's go celebrate !
+
+  - do all mongoose methods take a callback function as a final parameter?
  */
 
 //----- **DO NOT EDIT BELOW THIS LINE** ----------------------------------
