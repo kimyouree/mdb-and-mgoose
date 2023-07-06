@@ -1,0 +1,6 @@
+{
+    "diffEditor.ignoreTrimWhitespace": false,
+    "prettier.tabWidth": 4,
+    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+    "editor.insertSpaces": false
+}
