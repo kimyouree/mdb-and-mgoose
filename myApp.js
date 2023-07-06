@@ -155,10 +155,25 @@ const removeById = (personId, done) => {
 	});
 };
 
+// 11/12 Delete many documents with model.remove()
+// Modify the `removeManyPeople` function to delete all the
+// people whose name is within the variable `nameToRemove`,
+// using `Model.remove()`. Pass it to a query document with
+// the `name` field set, and a callback.
+// ** `query document` in this context is the Model record
+// you're searching for: Person.findByIdAndRemove(...) is the
+// query document, and we are passing `nameToRemove` to it.
+// Technically, the query document is not the model record
+// itself, rather it refers to a document or object that specifies
+// the criteria for querying the database.
 const removeManyPeople = (done) => {
-  const nameToRemove = "Mary";
-
-  done(null /*, data*/);
+	const nameToRemove = "Mary";
+	Person.remove({ name: nameToRemove }, (err, personRemoved) => {
+		if (err) {
+			console.error(err);
+		}
+		done(null, personRemoved);
+	});
 };
 
 const queryChain = (done) => {
