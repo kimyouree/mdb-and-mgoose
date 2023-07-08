@@ -158,8 +158,8 @@ const removeById = (personId, done) => {
 // 11/12 Delete many documents with model.remove()
 // Modify the `removeManyPeople` function to delete all the
 // people whose name is within the variable `nameToRemove`,
-// using `Model.remove()`. Pass it to a query document with
-// the `name` field set, and a callback.
+// using `Model.remove()`. Pass it (the `nameToRemove`) to a
+// query document with the `name` field set, and a callback.
 // ** `query document` in this context is the Model record
 // you're searching for: Person.findByIdAndRemove(...) is the
 // query document, and we are passing `nameToRemove` to it.
