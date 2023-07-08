@@ -50,7 +50,7 @@ const createAndSavePerson = (done) => {
 
 // 4/12) Create many People with `Model.create()`
 const arrayOfPeople = [
-	{ name: "John", age: 74, favoriteFoods: ["Del Taco"] },
+	{ name: "John", age: 74, favoriteFoods: ["Del Taco", "wine"] },
 	{ name: "Johnnathan", age: 76, favoriteFoods: ["roast chicken"] },
 	{ name: "Robert", age: 78, favoriteFoods: ["wine"] },
 ];
@@ -63,7 +63,7 @@ const createManyPeople = (arrayOfPeople, done) => {
 		done(null, people);
 	});
 };
-// createManyPeople(arrayOfPeople)
+// createManyPeople(arrayOfPeople);
 
 // 5/12) Use model.find() to search your database
 const findPeopleByName = (personName, done) => {
@@ -176,10 +176,53 @@ const removeManyPeople = (done) => {
 	});
 };
 
+// 12/12) Chain search query helpers to narrow search results
+// Modify the `queryChain()` function to find people who like
+// the food specified by the variable named `foodToSearch`.
+// Sort them by `name`, limit the results to two documents, and
+// hide their age. Chain `.find(), sort(), limit(), select()`,
+// and then `.exec()`. Pass the `done(err, data)` callback to `exec()`.
+
+// Note: If you don't pass the callbacks as the last argument to
+// Model.find() (or to the other search methods), the query is not executed.
+// You can store the query in a variable for later use. this kind of
+// object enables you to build up a query using chaining syntax. The
+// actual db search is executed when you finally chain the method
+// `exec()`. You always need to pass your callback to this last
+// method. There are many query helpers, here we'll use the most
+// commonly used.
+// ** Basically, when using Mongoose, documents can be retrieved using
+// `helpers`. Ever model method that accepts query conditions can
+// be executed by the means of a `callback` or the `exec` method.
+
+/**
+ * callback:
+ * User.findOne({ name: 'blada' }, function(err, user) {
+ * 		// ...
+ * });
+ *
+ * exec:
+ * User
+ * 		.findOne({ name: 'blada' })
+ * 		.exec(function (err, user) {
+ * 			// ...
+ * 		})
+ */
+
+// Therefore, when you don't pass a callback you can build a query
+// and eventually execute it.
 const queryChain = (done) => {
 	const foodToSearch = "burrito";
-
-	done(null /*, data*/);
+	Person.find({ favoriteFoods: foodToSearch })
+		.sort({ name: 1 })
+		.limit(2)
+		.select("-age")
+		.exec(function (err, person) {
+			if (err) {
+				console.error(err);
+			}
+			done(null, person);
+		});
 };
 
 /** **Well Done !!**
